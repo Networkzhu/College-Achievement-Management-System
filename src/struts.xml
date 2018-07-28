@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.devMode" value="false"></constant>
+	<package name="default" namespace="/" extends="struts-default">
+		<default-action-ref name="defaultPage"></default-action-ref>
+		<action name="defaultPage" class="cn.cmas.web.ui.LoginUI" method="loginui">
+			<result name="toLoginUI">/WEB-INF/login.jsp</result>
+		</action>
+	</package>
+	
+	<package name="asy" namespace="/asy" extends="struts-default">
+		<action name="studentScores" class = "cn.cmas.web.asy.StudentScoresAsy" method = "execute"></action>
+		<action name="addCOrPInfo" class = "cn.cmas.web.asy.AddCOrPInfo" method = "execute"></action>		
+		<action name="queryClassCourse" class = "cn.cmas.web.asy.QueryClassCourse" method = "execute"></action>
+		<action name="queryClassCourseScores" class = "cn.cmas.web.asy.QueryClassCourseScores" method = "execute"></action>				
+	</package>
+	
+	<package name="user" namespace="/user" extends="struts-default">
+		<interceptors>
+			<interceptor name="interceptCollegeAdmin" class="cn.cmas.interceptor.InterceptCollegeAdmin"></interceptor>
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="interceptCollegeAdmin">
+					<param name="includeMethods">login</param>
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myStack"></default-interceptor-ref>
+		
+		<global-results>
+			<result name="toCollegeAdmin" type="redirectAction">
+				<param name="actionName">collegeAdmin</param>
+				<param name="namespace">/user</param>
+			</result>
+			<result name="existNull" type="redirectAction">
+				<param name="actionName">loginui</param>
+				<param name="namespace">/user</param>
+			</result>
+		</global-results>
+		<action name="signOffAccount" class="cn.cmas.web.controller.SignOffAccount" method="execute">
+			<result name="illegal" type="redirectAction">
+				<param name="actionName">loginui</param>
+				<param name="namespace">/user</param>
+			</result>
+			<result name="sucess" type="redirectAction">
+				<param name="actionName">loginui</param>
+				<param name="namespace">/user</param>
+			</result>
+		</action>
+		<!-- 注册消息的回显 -->
+		<action name="register" class="cn.cmas.web.controller.Register" method="register">
+			<result name="toClassAdmin" type="redirectAction">
+				<param name="actionName">classAdmin</param>
+				<param name="namespace">/user</param>
+			</result>
+			<result name="toStudent" type="redirectAction">
+				<param name="actionName">student</param>
+				<param name="namespace">/user</param>
+			</result>
+			<result name="registerErr" type="dispatcher">/WEB-INF/register.jsp</result>
+		</action>
+		
+		<!-- 登录消息的回显 -->
+		<action name="login" class="cn.cmas.web.controller.Login" method="login">
+			<result name="toClassAdminUI" type="redirectAction">
+				<param name="actionName">classAdmin</param>
+				<param name="namespace">/user</param>
+			</result>
+			<result name="toStudentUI" type="redirectAction">
+				<param name="actionName">student</param>
+				<param name="namespace">/user</param>
+			</result>
+			<result name="loginErr" type="dispatcher">/WEB-INF/login.jsp</result>
+		</action>
+		<action name="quit" class="cn.cmas.web.controller.Quit" method="quit">
+			<result name="Quited" type="redirectAction">
+				<param name="actionName">loginui</param>
+				<param name="namespace">/user</param>
+			</result>
+		</action>
+		<action name="loginui" class="cn.cmas.web.ui.LoginUI" method="loginui">
+			<result name="toLoginUI">/WEB-INF/login.jsp</result>
+		</action>
+		<action name="registerui" class="cn.cmas.web.ui.RegisterUI" method="registerUI">
+			<result name="toRegisterUI">/WEB-INF/register.jsp</result>
+		</action>
+		<action name="changePwd" class="cn.cmas.web.controller.ChangePwd" method="execute">
+			<result name="sucess" type="redirectAction">
+				<param name="actionName">loginui</param>
+				<param name="namespace">/user</param>
+			</result>
+			<result name="error" type="dispatcher">/WEB-INF/changePwd.jsp</result>
+		</action>
+		<!-- 转发至学生主页 -->
+		<action name="student" class="cn.cmas.web.ui.StudentUI" method="execute">
+			<result name="illegal" type="redirectAction">
+				<param name="actionName">loginui</param>
+				<param name="namespace">/user</param>
+			</result>
+			<result name="toStudent" type="dispatcher">/WEB-INF/student.jsp</result>
+		</action>
+		
+		<!-- 转发至班级管理员主页 -->
+		<action name="classAdmin" class="cn.cmas.web.ui.ClassAdminUI" method="execute">
+			<result name="illegal" type="redirectAction">
+				<param name="actionName">loginui</param>
+				<param name="namespace">/user</param>
+			</result>
+			<result name="toClassAdmin" type="dispatcher">/WEB-INF/classAdmin.jsp</result>
+		</action>
+			
+		<!-- 转发至学院管理员界面 -->
+		<action name="collegeAdmin" class="cn.cmas.web.ui.CollegeAdminUI" method="execute">
+			<result name="illegal" type="redirectAction">
+				<param name="actionName">loginui</param>
+				<param name="namespace">/user</param>
+			</result>
+			<result name="toCollegeAdmin" type="dispatcher">/WEB-INF/collegeAdmin.jsp</result>
+		</action>
+		<action name="changePwdUI" class="cn.cmas.web.ui.ChangePwdUI" method="execute">
+			<result name="sucess" type="dispatcher">/WEB-INF/changePwd.jsp</result>
+			<result name="login" type="redirectAction">
+				<param name="actionName">loginui</param>
+				<param name="namespace">/user</param>
+			</result>
+		</action>
+	</package>
+	<package name="asyupload" namespace="/asyupload" extends="json-default">
+        <action name="course" class="cn.cmas.web.upload.CourseAsy">
+            <result type="json" name="success">
+                <param name="contentType">
+                    text/html
+                </param>
+            </result>
+            <result type="json" name="error">
+                <param name="contentType">
+                    text/html
+                </param>
+            </result>
+        </action>
+        <action name="student" class="cn.cmas.web.upload.StudentAsy">
+            <result type="json" name="success">
+                <param name="contentType">
+                    text/html
+                </param>
+            </result>
+            <result type="json" name="error">
+                <param name="contentType">
+                    text/html
+                </param>
+            </result>
+        </action>
+        <action name="scores" class="cn.cmas.web.upload.ScoresAsy">
+            <result type="json" name="success">
+                <param name="contentType">
+                    text/html
+                </param>
+            </result>
+            <result type="json" name="error">
+                <param name="contentType">
+                    text/html
+                </param>
+            </result>
+        </action>
+    </package>
+</struts>

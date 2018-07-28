@@ -1,0 +1,70 @@
+*{
+	font-family: "微软雅黑";
+	margin: 0px;
+	padding: 0px;
+}
+.sign-up-top{
+    height:65px;
+    box-shadow:2px 3px 10px #e4e4e4;
+    border-bottom:1px solid\9;
+}
+.sign-up-down{
+	width:100%;
+	background-color: #DDDDDD;
+	text-align: center;
+    height:60px;
+    border-radius:10px;
+    border-top-right-radius:10px;
+}
+.login-title{
+	padding-left: 30%;
+    font-size:28px;
+    color:#337AB7;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+.form-group{
+	margin-top: 20px;
+	position: relative;
+}
+.form-line-up{
+	margin: 0px;
+	padding: 0px;
+    height:8px;
+    background-color:#337AB7;
+    width:100%;
+    border-top-left-radius:4px;
+    border-top-right-radius:4px
+}
+.row{
+	margin-right: 0px;
+		margin-left: 0px;
+}
+.panel{
+	margin-top: 30px;
+	margin-bottom: 50px;
+}
+.error{
+	font-size:20px;
+	color:red;
+	text-align:center;
+}
+th, td{
+	text-align: center;
+}
+#cs-major td, #is-major td{
+	width: 25%;
+}
+
+.selectspan1{
+	line-height: 34px; 
+	font-size: 18px; 
+	vertical-align: middle;
+}
+.selectspan2{
+	line-height: 34px; 
+	vertical-align: middle;
+}
+.file-drop-zone{
+	height: 300px;
+}
